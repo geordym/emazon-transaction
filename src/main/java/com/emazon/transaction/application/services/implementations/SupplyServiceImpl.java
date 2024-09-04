@@ -28,5 +28,10 @@ public class SupplyServiceImpl implements ISupplyService {
         supplyUseCases.createSupply(supplyToSave);
     }
 
+    @Override
+    public void confirmReceiptOfSupply(Long supplyId) {
+        supplyUseCases.processReceivedSupply(supplyId);
+    }
+
 
 }

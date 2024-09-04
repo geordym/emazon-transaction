@@ -17,8 +17,24 @@ public class SupplyMapper {
         return supply;
     }
 
+    public static Supply entityToDomain(SupplyEntity supplyEntity){
+        Supply supply = new Supply();
+        supply.setId(supplyEntity.getId());
+        supply.setArticleId(supplyEntity.getArticleId());
+        supply.setCost(supplyEntity.getCost());
+        supply.setSupplyDate(supplyEntity.getSupplyDate());
+        supply.setDescription(supplyEntity.getDescription());
+        supply.setQuantity(supplyEntity.getQuantity());
+        supply.setCreatedByAuxiliaryId(supplyEntity.getCreatedByAuxiliaryId());
+        supply.setProviderName(supplyEntity.getProviderName());
+        supply.setStatus(supplyEntity.getStatus());
+        supply.setCreatedDate(supplyEntity.getCreatedDate());
+        return supply;
+    }
+
     public static SupplyEntity domainToEntity(Supply supply){
         SupplyEntity supplyEntity = new SupplyEntity();
+        supplyEntity.setId(supply.getId());
         supplyEntity.setArticleId(supply.getArticleId());
         supplyEntity.setCost(supply.getCost());
         supplyEntity.setSupplyDate(supply.getSupplyDate());
@@ -26,6 +42,8 @@ public class SupplyMapper {
         supplyEntity.setQuantity(supply.getQuantity());
         supplyEntity.setCreatedByAuxiliaryId(supply.getCreatedByAuxiliaryId());
         supplyEntity.setProviderName(supply.getProviderName());
+        supplyEntity.setStatus(supply.getStatus());
+        supplyEntity.setCreatedDate(supply.getCreatedDate());
         return supplyEntity;
     }
 

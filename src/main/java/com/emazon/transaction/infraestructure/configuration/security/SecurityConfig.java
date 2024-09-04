@@ -38,6 +38,8 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(registry -> {
                     registry.requestMatchers("/api/supply").authenticated();
+                    registry.requestMatchers("/api/supply/confirm/**").permitAll();
+
                 })
                 .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

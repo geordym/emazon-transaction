@@ -4,6 +4,7 @@ package com.emazon.transaction.infraestructure.configuration;
 import com.emazon.transaction.application.services.implementations.SupplyServiceImpl;
 import com.emazon.transaction.application.services.interfaces.ISupplyService;
 import com.emazon.transaction.domain.ports.in.SupplyUseCases;
+import com.emazon.transaction.domain.ports.out.ArticleServicePort;
 import com.emazon.transaction.domain.ports.out.SupplyPersistencePort;
 import com.emazon.transaction.domain.usecases.SupplyUseCasesImpl;
 import com.emazon.transaction.infraestructure.adapter.SupplyPersistenceMysqlAdapter;
@@ -20,8 +21,8 @@ public class SupplyBeanConfiguration {
     }
 
     @Bean
-    public SupplyUseCases supplyUseCases(SupplyPersistencePort supplyPersistencePort){
-        return new SupplyUseCasesImpl(supplyPersistencePort);
+    public SupplyUseCases supplyUseCases(SupplyPersistencePort supplyPersistencePort, ArticleServicePort articleServicePort){
+        return new SupplyUseCasesImpl(supplyPersistencePort, articleServicePort);
     }
 
     @Bean

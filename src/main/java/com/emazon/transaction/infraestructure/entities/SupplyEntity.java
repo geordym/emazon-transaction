@@ -42,6 +42,9 @@ public class SupplyEntity {
     @CreationTimestamp
     private LocalDateTime createdDate;
 
+    @Column(name = "status", nullable = false)
+    private String status;
+
 
 
 }

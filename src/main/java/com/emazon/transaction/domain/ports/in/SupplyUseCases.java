@@ -9,4 +9,6 @@ public interface SupplyUseCases {
     List<Supply> listSupply();
     void createSupply(Supply supply);
 
+    void processReceivedSupply(Long supplyId);
+
 }

@@ -20,4 +20,5 @@ public class Supply {
     private String description;
     private Long createdByAuxiliaryId;
     private LocalDateTime createdDate;
+    private String status;
 }
