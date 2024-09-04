@@ -25,6 +25,7 @@ public class SupplyMapper {
         supplyEntity.setDescription(supply.getDescription());
         supplyEntity.setQuantity(supply.getQuantity());
         supplyEntity.setCreatedByAuxiliaryId(supply.getCreatedByAuxiliaryId());
+        supplyEntity.setProviderName(supply.getProviderName());
         return supplyEntity;
     }
 

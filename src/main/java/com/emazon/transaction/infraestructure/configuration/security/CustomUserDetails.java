@@ -13,14 +13,15 @@ public class CustomUserDetails implements UserDetails {
     private final Collection<? extends GrantedAuthority> authorities;
     private final boolean isActive;
 
-    public CustomUserDetails(Long userId, String username, String password, boolean isActive) {
+    public CustomUserDetails(Long userId, String username, String password,
+                             Collection<? extends GrantedAuthority> authorities,
+                             boolean isActive) {
         this.userId = userId;
         this.username = username;
         this.password = password;
-        this.authorities = Collections.emptyList();
+        this.authorities = authorities;
         this.isActive = isActive;
     }
-
     public Long getUserId() {
         return userId;
     }
