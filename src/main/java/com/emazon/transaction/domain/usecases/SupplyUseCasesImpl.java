@@ -26,7 +26,7 @@ public class SupplyUseCasesImpl implements SupplyUseCases {
         supply.setStatus(SupplyStatus.PENDING.getDisplayName());
         supply.setCreatedDate(LocalDateTime.now());
         Supply supplySaved = supplyPersistencePort.saveSupply(supply);
-        articleServicePort.updateArticle(supplySaved.getId(), supply.getArticleId(), supply.getQuantity());
+      //  articleServicePort.updateArticle(supplySaved.getId(), supply.getArticleId(), supply.getQuantity());
     }
 
     @Override

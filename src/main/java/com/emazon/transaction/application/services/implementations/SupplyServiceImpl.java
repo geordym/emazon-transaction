@@ -24,7 +24,7 @@ public class SupplyServiceImpl implements ISupplyService {
 
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
         Supply supplyToSave = SupplyMapper.dtoToDomain(createSupplyRequestDto);
-        supplyToSave.setCreatedByAuxiliaryId(userDetails.getUserId());
+        supplyToSave.setCreatedByAuxiliaryId(Long.valueOf(userDetails.getUserId()));
         supplyUseCases.createSupply(supplyToSave);
     }
 

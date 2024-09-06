@@ -1,6 +1,7 @@
 package com.emazon.transaction.infraestructure.configuration.security;
 
 
+import com.emazon.transaction.domain.ports.out.security.TokenProviderPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -11,30 +12,27 @@ import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.Optional;
 
 
 @Service
 @RequiredArgsConstructor
 public class MyUserDetailsService implements UserDetailsService {
 
-    private final JwtUtil jwtUtil;
+    private final TokenProviderPort tokenProviderPort;
+    private final String USERNAME_NOT_FOUND_MESSAGE = "The username has been not found";
     @Override
     public UserDetails loadUserByUsername(String token){
-        Long userId = jwtUtil.extractUserId(token);
-        String role = jwtUtil.extractRole(token);
+        String subject = tokenProviderPort.extractSubject(token);
+        String role = tokenProviderPort.extractRole(token);
 
-        if (userId != null && userId > 0) {
+        if (subject != null && !subject.isEmpty()) {
             Collection<GrantedAuthority> authorities = Arrays.asList(
                     new SimpleGrantedAuthority(role)
             );
-            CustomUserDetails userDetails = new CustomUserDetails(userId, userId.toString(), token, authorities, true);
+            CustomUserDetails userDetails = new CustomUserDetails(subject, token, authorities, true);
             return userDetails;
         } else {
-            throw new UsernameNotFoundException("");
+            throw new UsernameNotFoundException(USERNAME_NOT_FOUND_MESSAGE);
         }
     }
-
-
 }

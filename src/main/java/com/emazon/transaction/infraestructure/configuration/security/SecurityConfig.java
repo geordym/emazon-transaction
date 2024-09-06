@@ -37,7 +37,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(registry -> {
-                    registry.requestMatchers("/api/supply").authenticated();
+                    registry.requestMatchers("/api/supply").hasRole(RoleEnum.AUX_BODEGA.getName());
                     registry.requestMatchers("/api/supply/confirm/**").permitAll();
 
                 })
