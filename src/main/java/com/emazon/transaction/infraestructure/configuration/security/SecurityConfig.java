@@ -39,6 +39,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(registry -> {
                     registry.requestMatchers("/api/supply").hasRole(RoleEnum.AUX_BODEGA.getName());
                     registry.requestMatchers("/api/supply/confirm/**").permitAll();
+                    registry.requestMatchers("/api/shop").hasRole(RoleEnum.CLIENTE.getName());
 
                 })
                 .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
