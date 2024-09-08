@@ -22,8 +22,13 @@ public class SupplyPersistenceMysqlAdapter implements SupplyPersistencePort {
     }
 
     @Override
-    public List<Supply> getPendingSupplies() {
-        return null;
+    public List<Supply> getPendingSupplies(String status) {
+        List<SupplyEntity> supplyEntities = supplyCrudRepositoryMySql.findSuppliesByStatus(status);
+        List<Supply> supplies = supplyEntities.stream().map(supplyEntity -> {
+         return SupplyMapper.entityToDomain(supplyEntity)  ;
+        }).toList();
+
+        return supplies;
     }
 
     @Transactional

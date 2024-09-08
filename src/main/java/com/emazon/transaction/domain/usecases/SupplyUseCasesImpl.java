@@ -16,6 +16,8 @@ public class SupplyUseCasesImpl implements SupplyUseCases {
     private final SupplyPersistencePort supplyPersistencePort;
     private final ArticleServicePort articleServicePort;
 
+
+
     @Override
     public List<Supply> listSupply() {
         return null;
@@ -26,7 +28,7 @@ public class SupplyUseCasesImpl implements SupplyUseCases {
         supply.setStatus(SupplyStatus.PENDING.getDisplayName());
         supply.setCreatedDate(LocalDateTime.now());
         Supply supplySaved = supplyPersistencePort.saveSupply(supply);
-      //  articleServicePort.updateArticle(supplySaved.getId(), supply.getArticleId(), supply.getQuantity());
+        articleServicePort.updateArticle(supplySaved.getId(), supply.getArticleId(), supply.getQuantity());
     }
 
     @Override

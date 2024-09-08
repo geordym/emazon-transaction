@@ -8,7 +8,7 @@ public interface SupplyPersistencePort {
 
     Supply saveSupply(Supply supply);
 
-    List<Supply> getPendingSupplies();
+    List<Supply> getPendingSupplies(String status);
 
     void updateSupplyStatusToReceived(Long supplyId);
 
