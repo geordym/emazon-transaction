@@ -3,7 +3,8 @@ package com.emazon.transaction.domain.enums;
 public enum SupplyStatus {
     PENDING("Pending"),
     ACCEPTED("Accepted"),
-    REJECTED("Rejected");
+    REJECTED("Rejected"),
+    ARTICLE_PENDING("ArticlePending");
 
     private final String displayName;
 

@@ -6,4 +6,6 @@ public interface ISupplyService {
 
     void createSupply(CreateSupplyRequestDto createSupplyRequestDto);
     void confirmReceiptOfSupply(Long supplyId);
+    void cancelReceiptOfSupply(Long supplyId);
+
 }

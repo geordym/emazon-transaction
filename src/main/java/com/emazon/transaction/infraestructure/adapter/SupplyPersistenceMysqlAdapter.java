@@ -10,6 +10,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 public class SupplyPersistenceMysqlAdapter implements SupplyPersistencePort {
@@ -35,6 +36,23 @@ public class SupplyPersistenceMysqlAdapter implements SupplyPersistencePort {
     @Override
     public void updateSupplyStatusToReceived(Long supplyId) {
         supplyCrudRepositoryMySql.updateSupplyStatus(supplyId, SupplyStatus.ACCEPTED.getDisplayName());
+    }
+
+    @Transactional
+    @Override
+    public void updateSupplyStatusToRejected(Long supplyId) {
+        supplyCrudRepositoryMySql.updateSupplyStatus(supplyId, SupplyStatus.REJECTED.getDisplayName());
+    }
+
+    @Override
+    public Optional<Supply> findSupplyById(Long supplyId) {
+        Optional<SupplyEntity> supplyEntityOpt = supplyCrudRepositoryMySql.findById(supplyId);
+        if(supplyEntityOpt.isEmpty()){
+            return Optional.empty();
+        }
+
+        Supply supply = SupplyMapper.entityToDomain(supplyEntityOpt.get());
+        return Optional.of(supply);
     }
 
 

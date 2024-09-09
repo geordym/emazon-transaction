@@ -7,6 +7,7 @@ import com.emazon.transaction.domain.model.Supply;
 import com.emazon.transaction.domain.ports.in.SupplyUseCases;
 import com.emazon.transaction.infraestructure.configuration.security.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,11 +16,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 public class SupplyServiceImpl implements ISupplyService {
 
     private final SupplyUseCases supplyUseCases;
+    private final String EXCEPT_AUTH_MESSAGE = "You need to be autenticated";
     @Override
     public void createSupply(CreateSupplyRequestDto createSupplyRequestDto) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || !(authentication.getPrincipal() instanceof UserDetails)) {
-            throw new RuntimeException("Not authenticated user");
+            throw new InsufficientAuthenticationException(EXCEPT_AUTH_MESSAGE);
         }
 
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
@@ -31,6 +33,11 @@ public class SupplyServiceImpl implements ISupplyService {
     @Override
     public void confirmReceiptOfSupply(Long supplyId) {
         supplyUseCases.processReceivedSupply(supplyId);
+    }
+
+    @Override
+    public void cancelReceiptOfSupply(Long supplyId) {
+        supplyUseCases.processRejectedSupply(supplyId);
     }
 
 

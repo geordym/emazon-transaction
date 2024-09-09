@@ -11,4 +11,7 @@ public interface SupplyUseCases {
 
     void processReceivedSupply(Long supplyId);
 
+    void processRejectedSupply(Long supplyId);
+
+
 }
