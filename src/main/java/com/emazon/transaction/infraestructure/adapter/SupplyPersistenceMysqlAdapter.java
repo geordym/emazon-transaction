@@ -1,7 +1,7 @@
 package com.emazon.transaction.infraestructure.adapter;
 
 import com.emazon.transaction.application.services.mapper.SupplyMapper;
-import com.emazon.transaction.domain.enums.SupplyStatus;
+import com.emazon.transaction.domain.enums.SyncStatus;
 import com.emazon.transaction.domain.model.Supply;
 import com.emazon.transaction.domain.ports.out.SupplyPersistencePort;
 import com.emazon.transaction.infraestructure.entities.SupplyEntity;
@@ -23,8 +23,8 @@ public class SupplyPersistenceMysqlAdapter implements SupplyPersistencePort {
     }
 
     @Override
-    public List<Supply> getPendingSupplies(String status) {
-        List<SupplyEntity> supplyEntities = supplyCrudRepositoryMySql.findSuppliesByStatus(status);
+    public List<Supply> getSyncPendingSupplies(String status) {
+        List<SupplyEntity> supplyEntities = supplyCrudRepositoryMySql.findSuppliesBySyncStatus(status);
         List<Supply> supplies = supplyEntities.stream().map(supplyEntity -> {
          return SupplyMapper.entityToDomain(supplyEntity)  ;
         }).toList();
@@ -34,14 +34,14 @@ public class SupplyPersistenceMysqlAdapter implements SupplyPersistencePort {
 
     @Transactional
     @Override
-    public void updateSupplyStatusToReceived(Long supplyId) {
-        supplyCrudRepositoryMySql.updateSupplyStatus(supplyId, SupplyStatus.ACCEPTED.getDisplayName());
+    public void updateSupplySyncStatusToCompleted(Long supplyId) {
+        supplyCrudRepositoryMySql.updateSupplySyncStatus(supplyId, SyncStatus.COMPLETED.getDescription());
     }
 
     @Transactional
     @Override
-    public void updateSupplyStatusToRejected(Long supplyId) {
-        supplyCrudRepositoryMySql.updateSupplyStatus(supplyId, SupplyStatus.REJECTED.getDisplayName());
+    public void updateSupplySyncStatusToRejected(Long supplyId) {
+        supplyCrudRepositoryMySql.updateSupplySyncStatus(supplyId, SyncStatus.FAILED.getDescription());
     }
 
     @Override

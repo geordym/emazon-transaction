@@ -11,12 +11,12 @@ import java.util.List;
 public interface SupplyCrudRepositoryMySql extends JpaRepository<SupplyEntity, Long> {
 
     @Modifying
-    @Query("UPDATE SupplyEntity s SET s.status = :newStatus" +
+    @Query("UPDATE SupplyEntity s SET s.syncStatus = :newStatus" +
             " WHERE s.id = :supplyId")
-    void updateSupplyStatus(Long supplyId, String newStatus);
+    void updateSupplySyncStatus(Long supplyId, String newStatus);
 
     @Modifying
-    @Query("SELECT s FROM SupplyEntity s WHERE s.status = :status")
-    List<SupplyEntity> findSuppliesByStatus(@Param("status") String status);
+    @Query("SELECT s FROM SupplyEntity s WHERE s.syncStatus = :status")
+    List<SupplyEntity> findSuppliesBySyncStatus(@Param("status") String status);
 
 }

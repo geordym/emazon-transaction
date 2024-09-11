@@ -1,6 +1,7 @@
 package com.emazon.transaction.domain.usecases;
 
-import com.emazon.transaction.domain.enums.SupplyStatus;
+import com.emazon.transaction.domain.enums.DeliveryStatus;
+import com.emazon.transaction.domain.enums.SyncStatus;
 import com.emazon.transaction.domain.exception.util.ArticleConnectionFailure;
 import com.emazon.transaction.domain.exception.util.ArticleNotFoundException;
 import com.emazon.transaction.domain.exception.util.SupplyNotFoundException;
@@ -39,7 +40,8 @@ public class SupplyUseCasesImpl implements SupplyUseCases {
 
         }
 
-        supply.setStatus(SupplyStatus.PENDING.getDisplayName());
+        supply.setDeliveryStatus(DeliveryStatus.IN_TRANSIT.getDescription());
+        supply.setSyncStatus(SyncStatus.PENDING.getDescription());
         supply.setCreatedDate(LocalDateTime.now());
         Supply supplySaved = supplyPersistencePort.saveSupply(supply);
         articleServicePort.updateArticle(supplySaved.getId(), supply.getArticleId(), supply.getQuantity());
@@ -52,7 +54,7 @@ public class SupplyUseCasesImpl implements SupplyUseCases {
             throw new SupplyNotFoundException();
         }
 
-        supplyPersistencePort.updateSupplyStatusToReceived(supplyId);
+        supplyPersistencePort.updateSupplySyncStatusToCompleted(supplyId);
     }
 
     @Override
@@ -62,7 +64,7 @@ public class SupplyUseCasesImpl implements SupplyUseCases {
             throw new SupplyNotFoundException();
         }
 
-        supplyPersistencePort.updateSupplyStatusToRejected(supplyId);
+        supplyPersistencePort.updateSupplySyncStatusToRejected(supplyId);
     }
 
 

@@ -23,11 +23,13 @@ public class SupplyMapper {
         supply.setArticleId(supplyEntity.getArticleId());
         supply.setCost(supplyEntity.getCost());
         supply.setSupplyDate(supplyEntity.getSupplyDate());
+        supply.setReceivedAt(supplyEntity.getReceivedDate());
         supply.setDescription(supplyEntity.getDescription());
         supply.setQuantity(supplyEntity.getQuantity());
         supply.setCreatedByAuxiliaryId(supplyEntity.getCreatedByAuxiliaryId());
         supply.setProviderName(supplyEntity.getProviderName());
-        supply.setStatus(supplyEntity.getStatus());
+        supply.setSyncStatus(supplyEntity.getSyncStatus());
+        supply.setDeliveryStatus(supplyEntity.getDeliveryStatus());
         supply.setCreatedDate(supplyEntity.getCreatedDate());
         return supply;
     }
@@ -42,7 +44,8 @@ public class SupplyMapper {
         supplyEntity.setQuantity(supply.getQuantity());
         supplyEntity.setCreatedByAuxiliaryId(supply.getCreatedByAuxiliaryId());
         supplyEntity.setProviderName(supply.getProviderName());
-        supplyEntity.setStatus(supply.getStatus());
+        supplyEntity.setSyncStatus(supply.getSyncStatus());
+        supplyEntity.setDeliveryStatus(supply.getDeliveryStatus());
         supplyEntity.setCreatedDate(supply.getCreatedDate());
         return supplyEntity;
     }

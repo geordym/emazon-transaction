@@ -1,7 +1,7 @@
 package com.emazon.transaction.infraestructure.schedule;
 
 
-import com.emazon.transaction.domain.enums.SupplyStatus;
+import com.emazon.transaction.domain.enums.SyncStatus;
 import com.emazon.transaction.domain.model.Supply;
 import com.emazon.transaction.domain.ports.out.ArticleServicePort;
 import com.emazon.transaction.domain.ports.out.SupplyPersistencePort;
@@ -55,7 +55,7 @@ public class SupplyRetrySchedulerService implements CommandLineRunner {
 
     private void retryFailedSupplies() {
         logger.info("Reintentando procesar suministros fallidos...");
-        List<Supply> suppliesPendingToSend = supplyPersistencePort.getPendingSupplies(SupplyStatus.PENDING.getDisplayName());
+        List<Supply> suppliesPendingToSend = supplyPersistencePort.getSyncPendingSupplies(SyncStatus.PENDING.getDescription());
         if (suppliesPendingToSend.isEmpty()) {
             logger.info("No hay suministros para procesar, cancelando hilo");
             this.stopRetryTask();
@@ -71,7 +71,7 @@ public class SupplyRetrySchedulerService implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         logger.info("System started, verifying supplies with status PENDING");
-        List<Supply> suppliesPendingToSend = supplyPersistencePort.getPendingSupplies(SupplyStatus.PENDING.getDisplayName());
+        List<Supply> suppliesPendingToSend = supplyPersistencePort.getSyncPendingSupplies(SyncStatus.PENDING.getDescription());
         if (!suppliesPendingToSend.isEmpty()) {
             logger.info("Supplies pending to send has been founded, starting schedule...");
             this.startRetryTask();

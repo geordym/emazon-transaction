@@ -6,6 +6,7 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -14,11 +15,14 @@ public class Supply {
     private Long id;
     private Long articleId;
     private Integer quantity;
-    private LocalDateTime supplyDate;
+    private LocalDate supplyDate;
+    private LocalDate receivedAt;
     private String providerName;
     private BigDecimal cost;
     private String description;
     private Long createdByAuxiliaryId;
     private LocalDateTime createdDate;
-    private String status;
+    private String syncStatus;
+    private String deliveryStatus;
+
 }

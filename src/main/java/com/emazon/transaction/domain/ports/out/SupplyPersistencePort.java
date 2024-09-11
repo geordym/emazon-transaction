@@ -9,10 +9,10 @@ public interface SupplyPersistencePort {
 
     Supply saveSupply(Supply supply);
 
-    List<Supply> getPendingSupplies(String status);
+    List<Supply> getSyncPendingSupplies(String status);
 
-    void updateSupplyStatusToReceived(Long supplyId);
-    void updateSupplyStatusToRejected(Long supplyId);
+    void updateSupplySyncStatusToCompleted(Long supplyId);
+    void updateSupplySyncStatusToRejected(Long supplyId);
 
     Optional<Supply> findSupplyById(Long supplyId);
 

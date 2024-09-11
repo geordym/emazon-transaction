@@ -6,6 +6,7 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -24,7 +25,11 @@ public class SupplyEntity {
     private Integer quantity;
 
     @Column(name = "supply_date", nullable = false)
-    private LocalDateTime supplyDate;
+    private LocalDate supplyDate;
+
+    @Column(name = "received_at")
+    private LocalDate receivedDate;
+
     @Column(name = "cost")
     private BigDecimal cost;
     @Column(name = "description")
@@ -40,9 +45,11 @@ public class SupplyEntity {
     @CreationTimestamp
     private LocalDateTime createdDate;
 
-    @Column(name = "status", nullable = false)
-    private String status;
+    @Column(name = "sync_status", nullable = false)
+    private String syncStatus;
 
+    @Column(name = "delivery_status", nullable = false)
+    private String deliveryStatus;
 
 
 }

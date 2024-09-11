@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import java.math.BigDecimal;
@@ -25,7 +26,7 @@ public class CreateSupplyRequestDto {
     private Integer quantity;
 
     @NotNull(message = "Supply Date cannot be null")
-    private LocalDateTime supplyDate;
+    private LocalDate supplyDate;
 
     @NotBlank(message = "Provider Name cannot be blank")
     @Size(max = 100, message = "Provider Name cannot exceed 100 characters")
