@@ -36,8 +36,6 @@ public class SupplyEntity {
     @Column(name = "created_by_auxiliary_id")
     private Long createdByAuxiliaryId;
 
-
-
     @Column(name = "created_date", updatable = false)
     @CreationTimestamp
     private LocalDateTime createdDate;
