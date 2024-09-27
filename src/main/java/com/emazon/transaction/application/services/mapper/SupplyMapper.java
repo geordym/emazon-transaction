@@ -1,11 +1,21 @@
 package com.emazon.transaction.application.services.mapper;
 
 import com.emazon.transaction.application.dto.rest.CreateSupplyRequestDto;
+import com.emazon.transaction.application.dto.rest.response.SupplyResponseDto;
 import com.emazon.transaction.domain.model.Supply;
 import com.emazon.transaction.infraestructure.entities.SupplyEntity;
 
 public class SupplyMapper {
 
+    public static SupplyResponseDto domainToDto(Supply supply){
+        SupplyResponseDto supplyResponseDto = new SupplyResponseDto();
+        supplyResponseDto.setId(supply.getId());
+        supplyResponseDto.setArticleId(supply.getArticleId());
+        supplyResponseDto.setSupplyDate(supply.getSupplyDate());
+        supplyResponseDto.setDeliveryStatus(supply.getDeliveryStatus());
+        supplyResponseDto.setQuantity(supply.getQuantity());
+        return supplyResponseDto;
+    }
     public static Supply dtoToDomain(CreateSupplyRequestDto createSupplyRequestDto){
         Supply supply = new Supply();
         supply.setArticleId(createSupplyRequestDto.getArticleId());
@@ -30,6 +40,7 @@ public class SupplyMapper {
         supply.setProviderName(supplyEntity.getProviderName());
         supply.setSyncStatus(supplyEntity.getSyncStatus());
         supply.setDeliveryStatus(supplyEntity.getDeliveryStatus());
+        supply.setReceivedAt(supplyEntity.getReceivedDate());
         supply.setCreatedDate(supplyEntity.getCreatedDate());
         return supply;
     }
@@ -47,6 +58,7 @@ public class SupplyMapper {
         supplyEntity.setSyncStatus(supply.getSyncStatus());
         supplyEntity.setDeliveryStatus(supply.getDeliveryStatus());
         supplyEntity.setCreatedDate(supply.getCreatedDate());
+        supplyEntity.setReceivedDate(supply.getReceivedAt());
         return supplyEntity;
     }
 

@@ -40,6 +40,7 @@ public class SecurityConfig {
                     registry.requestMatchers("/api/supply").hasRole(RoleEnum.AUX_BODEGA.getName());
                     registry.requestMatchers("/api/supply/confirm/**").permitAll();
                     registry.requestMatchers("/api/supply/cancel/**").permitAll();
+                    registry.requestMatchers("/api/supply/articles/in-way/**").permitAll();
                     registry.requestMatchers("/api/shop").hasRole(RoleEnum.CLIENTE.getName());
 
                 })

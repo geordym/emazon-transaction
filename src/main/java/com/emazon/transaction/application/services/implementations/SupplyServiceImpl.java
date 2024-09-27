@@ -12,6 +12,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Optional;
+
 @RequiredArgsConstructor
 public class SupplyServiceImpl implements ISupplyService {
 
@@ -19,15 +21,8 @@ public class SupplyServiceImpl implements ISupplyService {
     private final String EXCEPT_AUTH_MESSAGE = "You need to be autenticated";
     @Override
     public void createSupply(CreateSupplyRequestDto createSupplyRequestDto) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication == null || !(authentication.getPrincipal() instanceof UserDetails)) {
-            throw new InsufficientAuthenticationException(EXCEPT_AUTH_MESSAGE);
-        }
-
-        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
         Supply supplyToSave = SupplyMapper.dtoToDomain(createSupplyRequestDto);
-        supplyToSave.setCreatedByAuxiliaryId(Long.valueOf(userDetails.getUserId()));
-        supplyUseCases.createSupply(supplyToSave);
+        supplyUseCases.createSupply(supplyToSave, createSupplyRequestDto.getIsReceived());
     }
 
     @Override
@@ -38,6 +33,11 @@ public class SupplyServiceImpl implements ISupplyService {
     @Override
     public void cancelReceiptOfSupply(Long supplyId) {
         supplyUseCases.processRejectedSupply(supplyId);
+    }
+
+    @Override
+    public Supply getUpcomingSupplyForArticle(Long articleId) {
+        return supplyUseCases.getUpcomingSupplyForArticle(articleId);
     }
 
 

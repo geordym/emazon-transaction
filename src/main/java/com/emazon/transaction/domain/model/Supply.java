@@ -25,4 +25,21 @@ public class Supply {
     private String syncStatus;
     private String deliveryStatus;
 
+    @Override
+    public String toString() {
+        return "Supply{" +
+                "id=" + id +
+                ", articleId=" + articleId +
+                ", quantity=" + quantity +
+                ", supplyDate=" + supplyDate +
+                ", receivedAt=" + receivedAt +
+                ", providerName='" + providerName + '\'' +
+                ", cost=" + cost +
+                ", description='" + description + '\'' +
+                ", createdByAuxiliaryId=" + createdByAuxiliaryId +
+                ", createdDate=" + createdDate +
+                ", syncStatus='" + syncStatus + '\'' +
+                ", deliveryStatus='" + deliveryStatus + '\'' +
+                '}';
+    }
 }

@@ -2,8 +2,7 @@ package com.emazon.transaction.infraestructure.exceptionhandler;
 
 
 import com.emazon.transaction.application.dto.rest.security.ErrorGenericResponseDto;
-import com.emazon.transaction.domain.exception.util.ArticleNotFoundException;
-import com.emazon.transaction.domain.exception.util.SupplyNotFoundException;
+import com.emazon.transaction.domain.exception.util.*;
 import com.emazon.transaction.infraestructure.exception.InvalidSupplyIdException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +17,29 @@ import java.util.Map;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
+
+    @ExceptionHandler(ArticleWithoutStockException.class)
+    public ResponseEntity<ErrorGenericResponseDto> handleArticleWithoutStockException(ArticleWithoutStockException ex){
+        ErrorGenericResponseDto errorGenericResponseDto = new ErrorGenericResponseDto(ex.getError(), ex.getMessage(), ex.getTimestamps());
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(errorGenericResponseDto);
+    }
+    @ExceptionHandler(ShoppingCartEmpty.class)
+    public ResponseEntity<ErrorGenericResponseDto> handleShoppingCartEmpty(ShoppingCartEmpty ex){
+        ErrorGenericResponseDto errorGenericResponseDto = new ErrorGenericResponseDto(ex.getError(), ex.getMessage(), ex.getTimestamps());
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(errorGenericResponseDto);
+    }
+
+    @ExceptionHandler(ArrivingSupplyNotFound.class)
+    public ResponseEntity<ErrorGenericResponseDto> handleArrivingSupplyNotFoundException(ArrivingSupplyNotFound ex){
+        ErrorGenericResponseDto errorGenericResponseDto = new ErrorGenericResponseDto(ex.getError(), ex.getMessage(), ex.getTimestamps());
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(errorGenericResponseDto);
+    }
     @ExceptionHandler(InvalidSupplyIdException.class)
     public ResponseEntity<ErrorGenericResponseDto> handleInvalidSupplyIdException(InvalidSupplyIdException ex){
         ErrorGenericResponseDto errorGenericResponseDto = new ErrorGenericResponseDto(ex.getError(), ex.getMessage(), ex.getTimestamps());

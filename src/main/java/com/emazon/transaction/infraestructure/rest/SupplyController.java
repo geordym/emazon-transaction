@@ -2,12 +2,17 @@ package com.emazon.transaction.infraestructure.rest;
 
 import com.emazon.transaction.application.dto.rest.CreateSupplyRequestDto;
 import com.emazon.transaction.application.dto.rest.GenericResponseDto;
+import com.emazon.transaction.application.dto.rest.response.SupplyResponseDto;
+import com.emazon.transaction.application.handler.ISupplyRestHandler;
 import com.emazon.transaction.application.services.interfaces.ISupplyService;
+import com.emazon.transaction.application.services.mapper.SupplyMapper;
+import com.emazon.transaction.domain.model.Supply;
 import com.emazon.transaction.infraestructure.rest.constants.HttpStatusCodes;
 import com.emazon.transaction.infraestructure.rest.constants.SwaggerConstants;
 import com.emazon.transaction.infraestructure.util.ValidateSupplyId;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
@@ -15,6 +20,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 import static com.emazon.transaction.infraestructure.rest.constants.ResponseConstantes.CONFIRM_RECEIVED_MESSAGE;
 
@@ -25,6 +32,30 @@ public class SupplyController {
 
     private final ISupplyService supplyService;
     private final ValidateSupplyId supplyIdValidator;
+    private final ISupplyRestHandler supplyRestHandler;
+
+
+    @GetMapping("/in-way/{articleId}")
+    @Operation(
+            summary = "Get upcoming supply for an article",
+            description = "Retrieves the upcoming supply information for a specific article identified by its ID."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved the upcoming supply information",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = SupplyResponseDto.class))
+            ),
+            @ApiResponse(responseCode = "400", description = "Invalid article ID supplied",
+                    content = @Content
+            ),
+            @ApiResponse(responseCode = "404", description = "Article not found",
+                    content = @Content
+            )
+    })
+    public ResponseEntity<SupplyResponseDto> getFutureSupplyForArticle(
+            @PathVariable("articleId") Long articleId) {
+        SupplyResponseDto supplyResponseDto = supplyRestHandler.getUpcomingSupplyForArticle(articleId);
+        return new ResponseEntity<>(supplyResponseDto, HttpStatus.OK);
+    }
 
 
     @Operation(
@@ -50,7 +81,7 @@ public class SupplyController {
             @ApiResponse(responseCode = HttpStatusCodes.HTTP_NOT_FOUND, description = SwaggerConstants.CONFIRM_SUPPLY_RECEIPT_API_RESPONSES_404_DESCRIPTION, content = @Content)
     })
     @PutMapping("/confirm/{supplyId}")
-    public ResponseEntity<GenericResponseDto> confirmSupplyReceived(@PathVariable String supplyId) {
+    public ResponseEntity<GenericResponseDto> confirmSupplySyncReceived(@PathVariable String supplyId) {
         supplyIdValidator.validateSupplyId(supplyId);
         supplyService.confirmReceiptOfSupply(Long.parseLong(supplyId));
         GenericResponseDto genericResponseDto = new GenericResponseDto(SwaggerConstants.CONFIRM_RECEIVED_MESSAGE);
@@ -67,7 +98,7 @@ public class SupplyController {
             @ApiResponse(responseCode = HttpStatusCodes.HTTP_NOT_FOUND, description = SwaggerConstants.CONFIRM_SUPPLY_RECEIPT_API_RESPONSES_404_DESCRIPTION, content = @Content)
     })
     @PutMapping("/cancel/{supplyId}")
-    public ResponseEntity<GenericResponseDto> cancelSupply(@PathVariable String supplyId) {
+    public ResponseEntity<GenericResponseDto> cancelSyncSupply(@PathVariable String supplyId) {
         supplyIdValidator.validateSupplyId(supplyId);
         supplyService.cancelReceiptOfSupply(Long.parseLong(supplyId));
         GenericResponseDto genericResponseDto = new GenericResponseDto(SwaggerConstants.CONFIRM_REJECTED_MESSAGE);

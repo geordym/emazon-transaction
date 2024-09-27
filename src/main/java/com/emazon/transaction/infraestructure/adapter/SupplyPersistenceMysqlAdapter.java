@@ -1,6 +1,7 @@
 package com.emazon.transaction.infraestructure.adapter;
 
 import com.emazon.transaction.application.services.mapper.SupplyMapper;
+import com.emazon.transaction.domain.enums.DeliveryStatus;
 import com.emazon.transaction.domain.enums.SyncStatus;
 import com.emazon.transaction.domain.model.Supply;
 import com.emazon.transaction.domain.ports.out.SupplyPersistencePort;
@@ -9,6 +10,7 @@ import com.emazon.transaction.infraestructure.repository.SupplyCrudRepositoryMyS
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -53,6 +55,21 @@ public class SupplyPersistenceMysqlAdapter implements SupplyPersistencePort {
 
         Supply supply = SupplyMapper.entityToDomain(supplyEntityOpt.get());
         return Optional.of(supply);
+    }
+
+    @Override
+    public Optional<Supply> findClosestInTransitSupplyByArticleId(Long articleId) {
+        Optional<SupplyEntity> supplyEntity =
+                supplyCrudRepositoryMySql.
+                        findClosestInTransitSupplyByArticleId(
+                                DeliveryStatus.IN_TRANSIT.getDescription(),
+                        articleId);
+
+        if(supplyEntity.isEmpty()){
+            return Optional.empty();
+        }
+
+        return Optional.of(SupplyMapper.entityToDomain(supplyEntity.get()));
     }
 
 

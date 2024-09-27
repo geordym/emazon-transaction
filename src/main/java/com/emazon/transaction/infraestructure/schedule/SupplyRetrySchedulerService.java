@@ -3,9 +3,8 @@ package com.emazon.transaction.infraestructure.schedule;
 
 import com.emazon.transaction.domain.enums.SyncStatus;
 import com.emazon.transaction.domain.model.Supply;
-import com.emazon.transaction.domain.ports.out.ArticleServicePort;
 import com.emazon.transaction.domain.ports.out.SupplyPersistencePort;
-import lombok.RequiredArgsConstructor;
+import com.emazon.transaction.domain.ports.out.external.StockConnectionPort;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.scheduling.TaskScheduler;
@@ -22,7 +21,7 @@ public class SupplyRetrySchedulerService implements CommandLineRunner {
 
     private final TaskScheduler taskScheduler;
     private ScheduledFuture<?> scheduledFuture;
-    private final ArticleServicePort articleServicePort;
+    private final StockConnectionPort articleServicePort;
     private final SupplyPersistencePort supplyPersistencePort;
 
     private static final Logger logger = LoggerFactory.getLogger(SupplyRetrySchedulerService.class);
@@ -30,7 +29,7 @@ public class SupplyRetrySchedulerService implements CommandLineRunner {
 
     private final String CRON_DURATION = "0 * * * * *";
 
-    public SupplyRetrySchedulerService(@Lazy final ArticleServicePort articleServicePort,
+    public SupplyRetrySchedulerService(@Lazy final StockConnectionPort articleServicePort,
                                        @Lazy final SupplyPersistencePort supplyPersistencePort) {
         this.taskScheduler = new ConcurrentTaskScheduler();
         this.articleServicePort = articleServicePort;

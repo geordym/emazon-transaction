@@ -38,4 +38,7 @@ public class CreateSupplyRequestDto {
 
     @Size(max = 255, message = "Description cannot exceed 255 characters")
     private String description;
+
+    @NotNull
+    private Boolean isReceived;
 }
